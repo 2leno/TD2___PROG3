@@ -10,6 +10,7 @@ public class Dish {
     private List<DishIngredient> dishIngredients;
 
     public Dish() {
+        this.dishIngredients = new ArrayList<>(); // Initialisation ici
     }
 
     public List<DishIngredient> getDishIngredients() {
@@ -37,6 +38,10 @@ public class Dish {
     }
 
     public Double getDishCost() {
+        if (dishIngredients == null || dishIngredients.isEmpty()) {
+            return 0.0; // Retourne 0 si pas d'ingrédients
+        }
+
         double totalPrice = 0;
         for (DishIngredient dishIngredient : dishIngredients) {
             Double quantity = dishIngredient.getQuantity();
@@ -86,13 +91,27 @@ public class Dish {
 
     @Override
     public String toString() {
+        // Vérifier si dishIngredients est null avant d'appeler getDishCost()
+        double cost = 0.0;
+        double grossMargin = 0.0;
+
+        try {
+            cost = getDishCost();
+            if (price != null) {
+                grossMargin = price - cost;
+            }
+        } catch (Exception e) {
+            cost = 0.0;
+            grossMargin = 0.0;
+        }
+
         return "Dish{" +
                 "id=" + id +
                 ", price=" + price +
                 ", name='" + name + '\'' +
                 ", dishType=" + dishType +
-                ", cost=" + getDishCost() +
-                ", grossMargin=" + getGrossMargin() +
+                ", cost=" + cost +
+                ", grossMargin=" + grossMargin +
                 ", ingredients=" + dishIngredients +
                 '}';
     }

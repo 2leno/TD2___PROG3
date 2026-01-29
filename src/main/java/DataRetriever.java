@@ -265,11 +265,12 @@ public class DataRetriever {
         Connection connection = dbConnection.getConnection();
         List<DishOrder> dishOrders = new ArrayList<>();
 
+        // CORRECTION : Utiliser le nom complet de la table au lieu de l'alias "do"
         String sql = """
-            SELECT do.id, do.id_dish, do.quantity, d.name as dish_name, d.dish_type
-            FROM dish_order do
-            JOIN dish d ON do.id_dish = d.id
-            WHERE do.id_order = ?
+            SELECT dish_order.id, dish_order.id_dish, dish_order.quantity, d.name as dish_name, d.dish_type
+            FROM dish_order 
+            JOIN dish d ON dish_order.id_dish = d.id
+            WHERE dish_order.id_order = ?
             """;
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
