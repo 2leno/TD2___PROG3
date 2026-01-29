@@ -6,11 +6,9 @@ public class Order {
     private Integer id;
     private String reference;
     private Instant creationDatetime;
-    private List<DishOrder> dishOrders;
+    private List<DishOrder> dishOrderList;
     private OrderTypeEnum orderType;
     private OrderStatusEnum status;
-
-    public Order() {}
 
     public Integer getId() {
         return id;
@@ -36,12 +34,12 @@ public class Order {
         this.creationDatetime = creationDatetime;
     }
 
-    public List<DishOrder> getDishOrders() {
-        return dishOrders;
+    public List<DishOrder> getDishOrderList() {
+        return dishOrderList;
     }
 
-    public void setDishOrders(List<DishOrder> dishOrders) {
-        this.dishOrders = dishOrders;
+    public void setDishOrderList(List<DishOrder> dishOrderList) {
+        this.dishOrderList = dishOrderList;
     }
 
     public OrderTypeEnum getOrderType() {
@@ -61,30 +59,38 @@ public class Order {
     }
 
     @Override
+    public String toString() {
+    return "Order{" +
+            "id=" + id +
+            ", reference='" + reference + '\'' +
+            ", creationDatetime=" + creationDatetime +
+            ", orderType=" + orderType +
+            ", status=" + status +
+            ", dishOrderList=" + dishOrderList +
+            '}';
+    }
+
+    Double getTotalAmountWithoutVat() {
+        throw new RuntimeException("Not implemented");
+    }
+
+    Double getTotalAmountWithVat() {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Order order)) return false;
         return Objects.equals(id, order.id) &&
                Objects.equals(reference, order.reference) &&
                Objects.equals(creationDatetime, order.creationDatetime) &&
-               Objects.equals(dishOrders, order.dishOrders) &&
                orderType == order.orderType &&
-               status == order.status;
+               status == order.status &&
+               Objects.equals(dishOrderList, order.dishOrderList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, reference, creationDatetime, dishOrders, orderType, status);
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", reference='" + reference + '\'' +
-                ", creationDatetime=" + creationDatetime +
-                ", orderType=" + orderType +
-                ", status=" + status +
-                ", dishOrders=" + dishOrders +
-                '}';
+        return Objects.hash(id, reference, creationDatetime, orderType, status, dishOrderList);
     }
 }

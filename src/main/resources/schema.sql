@@ -1,4 +1,6 @@
 create type dish_type as enum ('STARTER', 'MAIN', 'DESSERT');
+create type order_type_enum as enum ('EAT_IN', 'TAKE_AWAY');
+create type order_status_enum as enum ('CREATED', 'READY', 'DELIVERED');
 
 create table dish (
     id        serial primary key,
@@ -70,12 +72,8 @@ create table if not exists dish_order (
     quantity int
 );
 
-CREATE TYPE order_type_enum AS ENUM ('EAT_IN', 'TAKE_AWAY');
+alter table "order"
+add column if not exists order_type order_type_enum,
+add column if not exists status order_status_enum default 'CREATED';
 
-CREATE TYPE order_status_enum AS ENUM ('CREATED', 'READY', 'DELIVERED');
-
-ALTER TABLE "order"
-ADD COLUMN IF NOT EXISTS order_type order_type_enum,
-ADD COLUMN IF NOT EXISTS status order_status_enum DEFAULT 'CREATED';
-
-UPDATE "order" SET status = 'CREATED' WHERE status IS NULL;
+update "order" set status = 'CREATED' where status is null;

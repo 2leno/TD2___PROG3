@@ -103,22 +103,4 @@ public class Dish {
         }
         return price - getDishCost();
     }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        if (ingredients == null) {
-            this.dishIngredients = new ArrayList<>();
-            return;
-        }
-
-        List<DishIngredient> dishIngredients = new ArrayList<>();
-        for (Ingredient ingredient : ingredients) {
-            DishIngredient dishIngredient = new DishIngredient();
-            dishIngredient.setIngredient(ingredient);
-            dishIngredient.setDish(this);
-            dishIngredient.setQuantity(1.0);
-            dishIngredient.setUnit(Unit.KG);
-            dishIngredients.add(dishIngredient);
-        }
-        this.dishIngredients = dishIngredients;
-    }
 }

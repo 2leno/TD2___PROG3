@@ -1,5 +1,3 @@
 public enum OrderStatusEnum {
-    CREATED,
-    READY,
-    DELIVERED
+    CREATED, READY, DELIVERED
 }
