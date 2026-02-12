@@ -14,8 +14,7 @@ public class Ingredient {
     private Double price;
     private List<StockMovement> stockMovementList;
 
-    public Ingredient() {
-    }
+    public Ingredient() {}
 
     public Ingredient(Integer id, String name, CategoryEnum category, Double price, List<StockMovement> stockMovementList) {
         this.id = id;

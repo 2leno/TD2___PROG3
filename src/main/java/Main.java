@@ -23,11 +23,10 @@ public class Main {
             ligne1.setDish(salade);
             ligne1.setQuantity(2);
 
-            // Générer une référence au format ORDXXXXX (5 chiffres)
             String reference = generateOrderReference();
 
             Order nouvelleCommande = new Order();
-            nouvelleCommande.setReference(reference);  // Utiliser la référence générée
+            nouvelleCommande.setReference(reference);
             nouvelleCommande.setCreationDatetime(Instant.now());
             nouvelleCommande.setOrderType(OrderTypeEnum.EAT_IN);
             nouvelleCommande.setStatus(OrderStatusEnum.CREATED);
@@ -64,12 +63,9 @@ public class Main {
         }
     }
 
-    // Méthode pour générer une référence au format ORDXXXXX
     private static String generateOrderReference() {
-        // Générer un nombre entre 0 et 99999 (5 chiffres maximum)
         int randomNum = ThreadLocalRandom.current().nextInt(0, 100000);
 
-        // Formater avec des zéros devant pour avoir toujours 5 chiffres
         return String.format("ORD%05d", randomNum);
     }
 }

@@ -29,7 +29,6 @@ public class DishOrder {
         this.quantity = quantity;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof DishOrder dishOrder)) return false;

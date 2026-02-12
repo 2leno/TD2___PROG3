@@ -53,7 +53,7 @@ public class DataRetriever {
         }
 
         if (dish == null) {
-            return null;
+            throw new RuntimeException("Dish introvable avec l'ID : " + id);
         }
 
         String SqlIngredients = "SELECT i.id, i.name, i.price, i.category, di.required_quantity, di.unit " +
@@ -141,6 +141,30 @@ public class DataRetriever {
 
         return order;
     }
+
+    public Double getDishCost(Integer dishId) throws SQLException {
+        DBConnection dbConnection = new DBConnection();
+        Connection connection = dbConnection.getConnection();
+        Double cost = 0.0;
+
+        String sql = """
+            SELECT SUM(i.price * di.required_quantity) as total_cost
+            FROM dish_ingredient di
+            JOIN ingredient i ON di.id_ingredient = i.id
+            WHERE di.id_dish = ?
+            GROUP BY di.id_dish
+            """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, dishId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    cost = rs.getDouble("total_cost");
+                }
+            }
+
+        }
 
     public Order saveOrder(Order orderToSave) throws SQLException {
         if (orderToSave.getId() != null) {
@@ -265,7 +289,6 @@ public class DataRetriever {
         Connection connection = dbConnection.getConnection();
         List<DishOrder> dishOrders = new ArrayList<>();
 
-        // CORRECTION : Utiliser le nom complet de la table au lieu de l'alias "do"
         String sql = """
             SELECT dish_order.id, dish_order.id_dish, dish_order.quantity, d.name as dish_name, d.dish_type
             FROM dish_order 
